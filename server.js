@@ -5,10 +5,16 @@ const bodyParser = require("body-parser");
 require("dotenv").config(); // Load environment variables
 
 const app = express();
-app.use(cors());
+
 app.use(bodyParser.json());
 
 const PORT = 5000;
+const frontendURL = "https://portfolio-frontend-three-sigma.vercel.app/";  // Replace with your actual frontend URL
+app.use(cors({ origin: frontendURL }));
+
+app.get("/api/data", (req, res) => {
+    res.json({ message: "Hello from Backend!", data: [1, 2, 3] });
+});
 
 // Nodemailer transporter setup
 const transporter = nodemailer.createTransport({
@@ -38,8 +44,6 @@ app.post("/send", async (req, res) => {
         res.status(500).json({ success: false, message: "Failed to send message." });
     }
 });
-const frontendURL = "https://portfolio-frontend-git-main-ragini117s-projects.vercel.app/";  // Replace with your actual frontend URL
-app.use(cors({ origin: frontendURL }));
 
 app.get("/api/data", (req, res) => {
     res.json({ message: "Hello from Backend!", data: [1, 2, 3] });
